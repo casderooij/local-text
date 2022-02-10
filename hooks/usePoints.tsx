@@ -17,6 +17,7 @@ type PointsWithName = Point & { name: string };
 type PointsContext = {
   current: Point | null;
   points: PointsWithName[];
+  error: string;
 };
 
 const pointsData: PointsWithName[] = [
@@ -57,10 +58,12 @@ function getDistance(a: Point, b: Point) {
 export const PointsContext = createContext<PointsContext>({
   current: null,
   points: pointsData,
+  error: '',
 });
 
 export const PointsProvider = ({ children }: { children: ReactElement }) => {
   const [current, setCurrent] = useState<Point | null>(null);
+  const [error, setError] = useState('');
 
   const points = useMemo(() => {
     if (!current) return pointsData;
@@ -76,17 +79,21 @@ export const PointsProvider = ({ children }: { children: ReactElement }) => {
     setCurrent({ lat: coords.latitude, lon: coords.longitude });
   };
 
+  const onError: PositionErrorCallback = (error) => {
+    setError(error.message);
+  };
+
   useEffect(() => {
     const geo = navigator.geolocation;
     if (!geo) return;
 
-    const watcher = geo.watchPosition(onChange);
+    const watcher = geo.watchPosition(onChange, onError);
 
     return () => geo.clearWatch(watcher);
   }, []);
 
   return (
-    <PointsContext.Provider value={{ current, points }}>
+    <PointsContext.Provider value={{ current, points, error }}>
       {children}
     </PointsContext.Provider>
   );
