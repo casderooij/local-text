@@ -5,11 +5,11 @@ export type Position = {
   lon: number;
 };
 
-export const siteStore = atom({ title: 'Local Text' });
+export const siteAtom = atom({ title: 'Local Text' });
 
-export const positionStore = atom<null | Position>(null);
+export const positionAtom = atom<null | Position>(null);
 
-export const pointsStore = atom([
+export const pointsAtom = atom([
   {
     name: 'Puntbrug',
     lat: 51.918206,
@@ -26,3 +26,5 @@ export const pointsStore = atom([
     lon: 4.493246,
   },
 ]);
+
+export const orderedPointsByPositionAtom = atom();

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { positionStore } from 'lib/store';
+import { positionAtom } from 'lib/store';
 
 function usePosition() {
-  const [position, setPosition] = useAtom(positionStore);
+  const [position, setPosition] = useAtom(positionAtom);
   const [error, setError] = useState<null | string>(null);
 
   const onChange: PositionCallback = ({ coords }) => {
