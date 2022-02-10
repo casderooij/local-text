@@ -1,13 +1,12 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
 import styles from './layout.module.css';
-import { siteAtom } from '../lib/store';
+import { siteAtom } from 'lib/store';
 import { useAtom } from 'jotai';
-import usePosition from 'hooks/usePosition';
 
 export default function Layout({ children }: { children: ReactElement }) {
   const [site] = useAtom(siteAtom);
-  usePosition();
+  // usePosition();
 
   return (
     <>
