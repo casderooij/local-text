@@ -87,7 +87,10 @@ export const PointsProvider = ({ children }: { children: ReactElement }) => {
     const geo = navigator.geolocation;
     if (!geo) return;
 
-    const watcher = geo.watchPosition(onChange, onError);
+    const watcher = geo.watchPosition(onChange, onError, {
+      enableHighAccuracy: true,
+      maximumAge: 3000,
+    });
 
     return () => geo.clearWatch(watcher);
   }, []);
