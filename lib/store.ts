@@ -1,8 +1,15 @@
 import { atom } from 'jotai';
 
+export type Position = {
+  lat: number;
+  lon: number;
+};
+
 export const siteStore = atom({ title: 'Local Text' });
 
-export const locationsStore = atom([
+export const positionStore = atom<null | Position>(null);
+
+export const pointsStore = atom([
   {
     name: 'Puntbrug',
     lat: 51.918206,
