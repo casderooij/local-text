@@ -19,7 +19,10 @@ function usePosition() {
       return;
     }
 
-    const watcher = geo.watchPosition(onChange, onError);
+    const watcher = geo.watchPosition(onChange, onError, {
+      maximumAge: 30000,
+      timeout: 27000,
+    });
 
     return () => geo.clearWatch(watcher);
   }, []);
