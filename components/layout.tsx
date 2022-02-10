@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
 import styles from './layout.module.css';
+import { siteStore } from '../lib/store';
+import { useAtom } from 'jotai';
 
 export default function Layout({ children }: { children: ReactElement }) {
-  const site = {
-    title: 'Local Text',
-  };
+  const [site] = useAtom(siteStore);
   return (
     <>
       <Head>
@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: ReactElement }) {
 
         <main className={styles.main}>{children}</main>
 
-        <footer>footer</footer>
+        <footer></footer>
       </div>
     </>
   );
