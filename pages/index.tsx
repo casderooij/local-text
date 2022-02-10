@@ -6,9 +6,16 @@ import { useAtom } from 'jotai';
 
 export default function Home() {
   const [points] = useAtom(orderedPointsByPositionAtom);
-  console.log(points);
 
-  return <div className={styles.container}>hello world</div>;
+  return (
+    <div className={styles.container}>
+      <ul>
+        {points.map((point) => (
+          <li key={point.name}>{point.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 Home.getLayout = function (page: ReactElement) {
