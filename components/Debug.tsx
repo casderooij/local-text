@@ -1,4 +1,4 @@
-import { usePoints } from 'hooks/usePoints';
+import usePoints from 'hooks/usePoints';
 
 export default function Debug() {
   const { current, error } = usePoints();

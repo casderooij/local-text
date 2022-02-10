@@ -6,56 +6,17 @@ import {
   ReactElement,
   useMemo,
 } from 'react';
-
-type Point = {
-  lat: number;
-  lon: number;
-};
-
-type PointsWithName = Point & { name: string };
+import { getDistance, toFixedNumber } from 'lib/utils';
+import type { Point, PointsWithName } from 'lib/types';
+import { pointsData } from 'lib/data';
 
 type PointsContext = {
   current: Point | null;
   points: PointsWithName[];
-  error: string;
+  error: string | null;
 };
 
-const pointsData: PointsWithName[] = [
-  {
-    name: 'Puntbrug',
-    lat: 51.918206,
-    lon: 4.489464,
-  },
-  {
-    name: 'Rechter Maasover',
-    lat: 51.921202,
-    lon: 4.498164,
-  },
-  {
-    name: 'Wijnhaven',
-    lat: 51.918785,
-    lon: 4.492126,
-  },
-  {
-    name: 'Spanjaardsbrug',
-    lat: 51.919324,
-    lon: 4.493246,
-  },
-  {
-    name: 'Blue City',
-    lat: 51.919583,
-    lon: 4.501198,
-  },
-];
-
-function getDistance(a: Point, b: Point) {
-  let y = b.lat - a.lat;
-  let x = b.lon - a.lon;
-
-  return Math.sqrt(x * x + y * y);
-}
-
-export const PointsContext = createContext<PointsContext>({
+const PointsContext = createContext<PointsContext>({
   current: null,
   points: pointsData,
   error: '',
@@ -63,7 +24,7 @@ export const PointsContext = createContext<PointsContext>({
 
 export const PointsProvider = ({ children }: { children: ReactElement }) => {
   const [current, setCurrent] = useState<Point | null>(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const points = useMemo(() => {
     if (!current) return pointsData;
@@ -76,7 +37,10 @@ export const PointsProvider = ({ children }: { children: ReactElement }) => {
   }, [current]);
 
   const onChange: PositionCallback = ({ coords }) => {
-    setCurrent({ lat: coords.latitude, lon: coords.longitude });
+    setCurrent({
+      lat: toFixedNumber(coords.latitude, 6),
+      lon: toFixedNumber(coords.longitude, 6),
+    });
   };
 
   const onError: PositionErrorCallback = (error) => {
@@ -102,4 +66,5 @@ export const PointsProvider = ({ children }: { children: ReactElement }) => {
   );
 };
 
-export const usePoints = () => useContext(PointsContext);
+const usePoints = () => useContext(PointsContext);
+export default usePoints;
