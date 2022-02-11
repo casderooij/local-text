@@ -17,7 +17,9 @@ export default function Layout({ children }: { children: ReactElement }) {
       </Head>
 
       <div className={styles.container}>
-        <header>{site.title}</header>
+        <header>
+          <h1>{site.title.toUpperCase()}</h1>
+        </header>
 
         <main className={styles.main}>{children}</main>
 

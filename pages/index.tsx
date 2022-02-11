@@ -7,7 +7,6 @@ import Debug from 'components/Debug';
 export default function Home() {
   return (
     <div className={styles.container}>
-      <h1>LOCAL TEXT</h1>
       <PointsList />
       <Debug />
     </div>
